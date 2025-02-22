@@ -1,9 +1,10 @@
 export default function panComa (a, v) {
-  a.sort();
-  v.sort();
-  var e = Math.min(a.length,v.length);
+  var sortfn=(l,r)=>l<r?-1:1;
+  a = a.toSorted(sortfn);
+  v = v.toSorted(sortfn);
+  // console.log(a,v);
   var i=0,j=0,r=[a[0]-1];
-  while (i<e&&j<e){
+  while (i<a.length&&j<v.length){
      a[i]==v[j]?(
         (r[r.length-1]!==a[i]&&r.push(a[i])),i++,j++)
         :a[i]<v[j]?i++:j++;

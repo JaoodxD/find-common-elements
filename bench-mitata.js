@@ -49,7 +49,7 @@ for (const testCase in testCases) {
     summary(() => {
       for (const finder of finders) {
         // Skip base variations due to performance issues
-        if (finder.name.startsWith('base') && testCase === 'extremeArray')
+        if (finder.name.startsWith('base') || finder.name.startsWith('kyrylRadivilov') && testCase === 'extremeArray')
           continue
         const a = arr1.slice()
         const b = arr2.slice()

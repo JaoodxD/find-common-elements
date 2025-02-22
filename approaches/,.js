@@ -1,8 +1,13 @@
 export default function panComa (a, v) {
-  a.sort()
-  v.sort()
-  for (var i = 0, j = 0; i < Math.min(a.length, v.length); i++) {
-    a[i] == v[i] && a[j] !== a[i] && (a[j++] = a[i])
+  a.sort();
+  v.sort();
+  var e = Math.min(a.length,v.length);
+  var i=0,j=0,r=[a[0]-1];
+  while (i<e&&j<e){
+     a[i]==v[j]?(
+        (r[r.length-1]!==a[i]&&r.push(a[i])),i++,j++)
+        :a[i]<v[j]?i++:j++;
   }
-  return a.slice(0, j)
+  r[0]=r.pop();
+  return r;
 }

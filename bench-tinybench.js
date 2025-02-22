@@ -26,20 +26,36 @@ const longArrayManyDuplicates2 = generateTestCase(
   SHORT_MAX_VALUE
 )
 
+const extremeArrayLength = 100_000
+const extremeArray1 = Array.from(
+  { length: extremeArrayLength },
+  (_, i) => (i * 0b011) % extremeArrayLength
+)
+const extremeArray2 = Array.from(
+  { length: extremeArrayLength },
+  (_, i) => (i * 0b101) % extremeArrayLength
+)
+
 const testCases = {
   shortArray: [shortArray1, shortArray2],
   longArray: [longArray1, longArray2],
-  longArrayManyDuplicates: [longArrayManyDuplicates1, longArrayManyDuplicates2]
+  longArrayManyDuplicates: [longArrayManyDuplicates1, longArrayManyDuplicates2],
+  extremeArray: [extremeArray1, extremeArray2]
 }
 for (const testCase in testCases) {
   const bench = new Bench({ name: testCase, warmup: true })
   const [arr1, arr2] = testCases[testCase]
   for (const finder of finders) {
+    if (finder.name.startsWith('base') && testCase === 'extremeArray') continue
     bench.add(finder.name, () => {
       finder(arr1, arr2)
     })
   }
   await bench.run()
   console.log(bench.name)
-  console.table(bench.table())
+  console.table(bench.table().sort((a, b) => {
+    const aThroughput = parseFloat(a['Throughput avg (ops/s)'])
+    const bThroughput = parseFloat(b['Throughput avg (ops/s)'])
+    return bThroughput - aThroughput
+  }))
 }

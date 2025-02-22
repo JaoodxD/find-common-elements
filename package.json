@@ -3,8 +3,10 @@
   "version": "1.0.0",
   "description": "In search of best solution for array common elements problem",
   "main": "loader.js",
+  "type": "module",
   "scripts": {
     "test": "node --test test.js",
+    "bench" : "npm run bench:mitata && npm run bench:tinybench",
     "bench:mitata": "node bench-mitata.js",
     "bench:tinybench": "node bench-tinybench.js"
   },

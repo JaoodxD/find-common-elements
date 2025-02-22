@@ -6,6 +6,7 @@ const finders = await loadCommonElementsFinders()
 
 const SHORT_ARRAY_SIZE = 10
 const LONG_ARRAY_SIZE = 1_000
+
 const SHORT_MAX_VALUE = 10
 const LONG_MAX_VALUE = 1000
 
@@ -26,20 +27,32 @@ const longArrayManyDuplicates2 = generateTestCase(
   SHORT_MAX_VALUE
 )
 
+const extremeArrayLength = 100_000
+const extremeArray1 = Array.from(
+  { length: extremeArrayLength },
+  (_, i) => (i * 0b011) % extremeArrayLength
+)
+const extremeArray2 = Array.from(
+  { length: extremeArrayLength },
+  (_, i) => (i * 0b101) % extremeArrayLength
+)
+
 const testCases = {
   shortArray: [shortArray1, shortArray2],
   longArray: [longArray1, longArray2],
-  longArrayManyDuplicates: [longArrayManyDuplicates1, longArrayManyDuplicates2]
+  longArrayManyDuplicates: [longArrayManyDuplicates1, longArrayManyDuplicates2],
+  extremeArray: [extremeArray1, extremeArray2]
 }
 for (const testCase in testCases) {
   const [arr1, arr2] = testCases[testCase]
   group(testCase, () => {
-      summary(() => {
-        for (const finder of finders) {
-          bench(finder.name, () => {
-            finder(arr1, arr2)
-          })
-        }
+    summary(() => {
+      for (const finder of finders) {
+        if(finder.name.startsWith('base') && testCase === 'extremeArray') continue
+        bench(finder.name, () => {
+          finder(arr1, arr2)
+        })
+      }
     })
   })
 }

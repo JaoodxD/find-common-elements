@@ -50,7 +50,11 @@ for (const testCase in testCases) {
   const [arr1, arr2] = testCases[testCase]
   for (const finder of finders) {
     // Skip base variations due to performance issues
-    if (finder.name.startsWith('base') || finder.name.startsWith('kyrylRadivilov') && testCase === 'extremeArray') continue
+    if (
+      finder.name.startsWith('base') ||
+      (finder.name.startsWith('kyrylRadivilov') && testCase === 'extremeArray')
+    )
+      continue
     const a = arr1.slice()
     const b = arr2.slice()
     bench.add(finder.name, () => {
@@ -59,9 +63,11 @@ for (const testCase in testCases) {
   }
   await bench.run()
   console.log(bench.name)
-  console.table(bench.table().sort((a, b) => {
-    const aThroughput = parseFloat(a['Throughput avg (ops/s)'])
-    const bThroughput = parseFloat(b['Throughput avg (ops/s)'])
-    return bThroughput - aThroughput
-  }))
+  console.table(
+    bench.table().sort((a, b) => {
+      const aThroughput = parseFloat(a['Throughput avg (ops/s)'])
+      const bThroughput = parseFloat(b['Throughput avg (ops/s)'])
+      return bThroughput - aThroughput
+    })
+  )
 }

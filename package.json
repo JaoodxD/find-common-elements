@@ -1,0 +1,26 @@
+{
+  "name": "find-common-elements",
+  "version": "1.0.0",
+  "description": "In search of best solution for array common elements problem",
+  "main": "loader.js",
+  "scripts": {
+    "test": "node --test test.js",
+    "bench:mitata": "node bench-mitata.js",
+    "bench:tinybench": "node bench-tinybench.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JaoodxD/find-common-elements.git"
+  },
+  "keywords": [],
+  "author": "Maksym Shenderuk",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/JaoodxD/find-common-elements/issues"
+  },
+  "homepage": "https://github.com/JaoodxD/find-common-elements#readme",
+  "dependencies": {
+    "mitata": "^1.0.34",
+    "tinybench": "^3.1.1"
+  }
+}

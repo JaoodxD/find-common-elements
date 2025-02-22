@@ -5,13 +5,11 @@ import generateTestCase from './generate-test-case.js'
 import referenceSolution from './approaches/base.js'
 const finders = await loadCommonElementsFinders()
 
-
-
 const SHORT_ARRAY_SIZE = 10
 const LONG_ARRAY_SIZE = 1_000
 
 const SHORT_MAX_VALUE = 10
-const LONG_MAX_VALUE = 1000
+const LONG_MAX_VALUE = 1_000
 
 const shortArray1 = generateTestCase(SHORT_ARRAY_SIZE, 0, SHORT_MAX_VALUE)
 const shortArray2 = generateTestCase(SHORT_ARRAY_SIZE, 0, SHORT_MAX_VALUE)
@@ -36,6 +34,7 @@ const longArrayManyDuplicatesExpected = referenceSolution(
   longArrayManyDuplicates2
 ).sort()
 
+// lower the value of extremeArrayLength to 10_000 to avoid performance issues
 const extremeArrayLength = 10_000
 const extremeArray1 = Array.from(
   { length: extremeArrayLength },
@@ -45,7 +44,10 @@ const extremeArray2 = Array.from(
   { length: extremeArrayLength },
   (_, i) => (i * 0b101) % extremeArrayLength
 )
-const extremeArrayExpected = referenceSolution(extremeArray1, extremeArray2).sort()
+const extremeArrayExpected = referenceSolution(
+  extremeArray1,
+  extremeArray2
+).sort()
 
 const testCases = {
   shortArray: [shortArray1, shortArray2, shortArrayExpected],
@@ -60,7 +62,7 @@ const testCases = {
 
 for (const testCase in testCases) {
   const [arr1, arr2, expected] = testCases[testCase]
-  test(testCase, async (t) => {
+  test(testCase, async t => {
     for (const finder of finders) {
       await t.test(finder.name, () => {
         deepStrictEqual(finder(arr1, arr2).sort(), expected)

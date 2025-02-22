@@ -5,9 +5,10 @@ import generateTestCase from './generate-test-case.js'
 const finders = await loadCommonElementsFinders()
 
 const SHORT_ARRAY_SIZE = 10
-const LONG_ARRAY_SIZE = 1_000
 const SHORT_MAX_VALUE = 10
-const LONG_MAX_VALUE = 1000
+
+const LONG_ARRAY_SIZE = 1_000
+const LONG_MAX_VALUE = 1_000
 
 const shortArray1 = generateTestCase(SHORT_ARRAY_SIZE, 0, SHORT_MAX_VALUE)
 const shortArray2 = generateTestCase(SHORT_ARRAY_SIZE, 0, SHORT_MAX_VALUE)

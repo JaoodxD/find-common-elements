@@ -49,8 +49,10 @@ for (const testCase in testCases) {
   for (const finder of finders) {
     // Skip base variations due to performance issues
     if (finder.name.startsWith('base') && testCase === 'extremeArray') continue
+    const a = arr1.slice()
+    const b = arr2.slice()
     bench.add(finder.name, () => {
-      finder(arr1, arr2)
+      finder(a, b)
     })
   }
   await bench.run()

@@ -27,7 +27,7 @@ const longArrayManyDuplicates2 = generateTestCase(
   SHORT_MAX_VALUE
 )
 
-const extremeArrayLength = 100_000
+const extremeArrayLength = 1_000_000
 const extremeArray1 = Array.from(
   { length: extremeArrayLength },
   (_, i) => (i * 0b011) % extremeArrayLength

@@ -41,6 +41,8 @@ const testCases = {
   shortArray: [shortArray1, shortArray2],
   longArray: [longArray1, longArray2],
   longArrayManyDuplicates: [longArrayManyDuplicates1, longArrayManyDuplicates2],
+  shortWithLongArray: [shortArray1, longArray1],
+  longWithShortArray: [longArray1, shortArray1],
   extremeArray: [extremeArray1, extremeArray2]
 }
 for (const testCase in testCases) {

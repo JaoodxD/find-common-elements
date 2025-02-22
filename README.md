@@ -4,7 +4,7 @@ In search of best solution for array common elements problem
 
 # Tests
 
-## Correctness tests
+## Compliance tests
 
 ```
 npm t

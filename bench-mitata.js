@@ -48,6 +48,7 @@ for (const testCase in testCases) {
   group(testCase, () => {
     summary(() => {
       for (const finder of finders) {
+        // Skip base variations due to performance issues
         if(finder.name.startsWith('base') && testCase === 'extremeArray') continue
         bench(finder.name, () => {
           finder(arr1, arr2)

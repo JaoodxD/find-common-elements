@@ -46,6 +46,7 @@ for (const testCase in testCases) {
   const bench = new Bench({ name: testCase, warmup: true })
   const [arr1, arr2] = testCases[testCase]
   for (const finder of finders) {
+    // Skip base variations due to performance issues
     if (finder.name.startsWith('base') && testCase === 'extremeArray') continue
     bench.add(finder.name, () => {
       finder(arr1, arr2)

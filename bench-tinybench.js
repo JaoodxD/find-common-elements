@@ -37,13 +37,17 @@ const extremeArray2 = Array.from(
   (_, i) => (i * 0b101) % extremeArrayLength
 )
 
+const longArrayWithStrings1 = longArray1.map((n) => 'I' + n)
+const longArrayWithStrings2 = longArray2.map((n) => 'I' + n)
+
 const testCases = {
   shortArray: [shortArray1, shortArray2],
   longArray: [longArray1, longArray2],
   longArrayManyDuplicates: [longArrayManyDuplicates1, longArrayManyDuplicates2],
   shortWithLongArray: [shortArray1, longArray1],
   longWithShortArray: [longArray1, shortArray1],
-  extremeArray: [extremeArray1, extremeArray2]
+  extremeArray: [extremeArray1, extremeArray2],
+  longArrayWithStrings: [longArrayWithStrings1, longArrayWithStrings2]
 }
 for (const testCase in testCases) {
   const bench = new Bench({ name: testCase, warmup: true })

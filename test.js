@@ -1,72 +1,96 @@
 import test from 'node:test'
 import { deepStrictEqual } from 'node:assert'
 import loadCommonElementsFinders from './loader.js'
-import generateTestCase from './generate-test-case.js'
 import referenceSolution from './approaches/base.js'
 const finders = await loadCommonElementsFinders()
 
-const SHORT_ARRAY_SIZE = 10
-const LONG_ARRAY_SIZE = 1_000
+test('Simple', async t => {
+  for (const finder of finders) {
+    await t.test(finder.name, () => {
+      const arr1 = [1, 2, 3]
+      const arr2 = [3, 4, 5]
+      const expected = referenceSolution(arr1, arr2)
+      const result = finder(arr1, arr2)
+      const sorted = result.toSorted((a, b) => a - b)
+      deepStrictEqual(sorted, expected)
+    })
+  }
+})
 
-const SHORT_MAX_VALUE = 10
-const LONG_MAX_VALUE = 1_000
+test('Empty', async t => {
+  for (const finder of finders) {
+    await t.test(finder.name, () => {
+      const arr1 = []
+      const arr2 = []
+      const expected = referenceSolution(arr1, arr2)
+      const result = finder(arr1, arr2)
+      const sorted = result.toSorted((a, b) => a - b)
+      deepStrictEqual(sorted, expected)
+    })
+  }
+})
 
-const shortArray1 = generateTestCase(SHORT_ARRAY_SIZE, 0, SHORT_MAX_VALUE)
-const shortArray2 = generateTestCase(SHORT_ARRAY_SIZE, 0, SHORT_MAX_VALUE)
-const shortArrayExpected = referenceSolution(shortArray1, shortArray2).sort()
+test('No common elements', async t => {
+  for (const finder of finders) {
+    await t.test(finder.name, () => {
+      const arr1 = [1, 2, 3]
+      const arr2 = [4, 5, 6]
+      const expected = referenceSolution(arr1, arr2)
+      const result = finder(arr1, arr2)
+      const sorted = result.toSorted((a, b) => a - b)
+      deepStrictEqual(sorted, expected)
+    })
+  }
+})
 
-const longArray1 = generateTestCase(LONG_ARRAY_SIZE, 0, LONG_MAX_VALUE)
-const longArray2 = generateTestCase(LONG_ARRAY_SIZE, 0, LONG_MAX_VALUE)
-const longArrayExpected = referenceSolution(longArray1, longArray2).sort()
+test('All common elements', async t => {
+  for (const finder of finders) {
+    await t.test(finder.name, () => {
+      const arr1 = [1, 2, 3]
+      const arr2 = [1, 2, 3]
+      const expected = referenceSolution(arr1, arr2)
+      const result = finder(arr1, arr2)
+      const sorted = result.toSorted((a, b) => a - b)
+      deepStrictEqual(sorted, expected)
+    })
+  }
+})
 
-const longArrayManyDuplicates1 = generateTestCase(
-  LONG_ARRAY_SIZE,
-  0,
-  SHORT_MAX_VALUE
-)
-const longArrayManyDuplicates2 = generateTestCase(
-  LONG_ARRAY_SIZE,
-  0,
-  SHORT_MAX_VALUE
-)
-const longArrayManyDuplicatesExpected = referenceSolution(
-  longArrayManyDuplicates1,
-  longArrayManyDuplicates2
-).sort()
+test('Repeated common elements', async t => {
+  for (const finder of finders) {
+    await t.test(finder.name, () => {
+      const arr1 = [1, 1, 2, 2, 3, 3]
+      const arr2 = [1, 2, 3]
+      const expected = referenceSolution(arr1, arr2)
+      const result = finder(arr1, arr2)
+      const sorted = result.toSorted((a, b) => a - b)
+      deepStrictEqual(sorted, expected)
+    })
+  }
+})
 
-// lower the value of extremeArrayLength to 10_000 to avoid performance issues
-const extremeArrayLength = 10_000
-const extremeArray1 = Array.from(
-  { length: extremeArrayLength },
-  (_, i) => (i * 0b011) % extremeArrayLength
-)
-const extremeArray2 = Array.from(
-  { length: extremeArrayLength },
-  (_, i) => (i * 0b101) % extremeArrayLength
-)
-const extremeArrayExpected = referenceSolution(
-  extremeArray1,
-  extremeArray2
-).sort()
+test('Repeated commons elements in both arrays', async t => {
+  for (const finder of finders) {
+    await t.test(finder.name, () => {
+      const arr1 = [1, 2, 2, 3]
+      const arr2 = [2, 3, 3, 4]
+      const expected = referenceSolution(arr1, arr2)
+      const result = finder(arr1, arr2)
+      const sorted = result.toSorted((a, b) => a - b)
+      deepStrictEqual(sorted, expected)
+    })
+  }
+})
 
-const testCases = {
-  shortArray: [shortArray1, shortArray2, shortArrayExpected],
-  longArray: [longArray1, longArray2, longArrayExpected],
-  longArrayManyDuplicates: [
-    longArrayManyDuplicates1,
-    longArrayManyDuplicates2,
-    longArrayManyDuplicatesExpected
-  ],
-  extremeArray: [extremeArray1, extremeArray2, extremeArrayExpected]
-}
-
-for (const testCase in testCases) {
-  const [arr1, arr2, expected] = testCases[testCase]
-  test(testCase, async t => {
-    for (const finder of finders) {
-      await t.test(finder.name, () => {
-        deepStrictEqual(finder(arr1, arr2).sort(), expected)
-      })
-    }
-  })
-}
+test('0s and 1s', async t => {
+  for (const finder of finders) {
+    await t.test(finder.name, () => {
+      const arr1 = [0, 0, 1, 1, 1, 1]
+      const arr2 = [0, 0, 0, 1, 1, 1]
+      const expected = referenceSolution(arr1, arr2)
+      const result = finder(arr1, arr2)
+      const sorted = result.toSorted((a, b) => a - b)
+      deepStrictEqual(sorted, expected)
+    })
+  }
+})

@@ -51,6 +51,8 @@ const testCases = {
 }
 for (const testCase in testCases) {
   const [arr1, arr2] = testCases[testCase]
+  const uiarra1 = new Uint32Array(arr1)
+  const uiarra2 = new Uint32Array(arr2)
   group(testCase, () => {
     summary(() => {
       for (const finder of finders) {
@@ -59,6 +61,10 @@ for (const testCase in testCases) {
           continue
         const a = arr1.slice()
         const b = arr2.slice()
+        if (finder.name === 'danielMednikovWasm') {
+          a = uiarra1
+          b = uiarra2
+         }
         bench(finder.name, () => {
           finder(a, b)
         })
